@@ -285,3 +285,83 @@ Check the file /home/cloud_user/output/output.txt to verify that the purchase of
 cat /home/cloud_user/output/output.txt
 ```
 Note: It may take a few moments for the connector to process the new data.
+
+
+
+
+
+**Question:**
+
+Confluent provides a REST Proxy interface that serves as a RESTful interface on top of your Kafka cluster. In this lab, you'll work with Confluent REST Proxy to publish messages to Kafka topics. Follow the objectives to complete the task.
+
+Objectives:
+
+Publish the Missing Records to the inventory_purchases Topic:
+Use an HTTP request to Confluent REST Proxy to publish the missing records to the inventory_purchases topic. The records to publish are:
+
+Key: "apples", Value: "23"
+Key: "grapes", Value: "160"
+Explain:
+Use the provided curl command to send an HTTP POST request to Confluent REST Proxy. This request includes JSON-formatted records with keys and values for publishing to the inventory_purchases topic.
+
+```
+curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
+  -H "Accept: application/vnd.kafka.v2+json" \
+  --data '{"records":[{"key":"apples","value":"23"},{"key":"grapes","value":"160"}]}' \
+  "http://localhost:8082/topics/inventory_purchases"
+```
+Verify that the data is in the topic using a console consumer:
+
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic inventory_purchases --from-beginning --property print.key=true
+```
+Publish the Missing Records to the member_signups Topic:
+Use an HTTP request to Confluent REST Proxy to publish the missing records to the member_signups topic. The records to publish are:
+
+Key: "77543", Value: "Rosenberg, Willow"
+Key: "56878", Value: "Giles, Rupert"
+Explain:
+Use the provided curl command to send an HTTP POST request to Confluent REST Proxy. This request includes JSON-formatted records with keys and values for publishing to the member_signups topic.
+
+```
+curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
+  -H "Accept: application/vnd.kafka.v2+json" \
+  --data '{"records":[{"key":"77543","value":"Rosenberg, Willow"},{"key":"56878","value":"Giles, Rupert"}]}' \
+  "http://localhost:8082/topics/member_signups"
+```
+Verify that the data is in the topic using a console consumer:
+
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic member_signups --from-beginning --property print.key=true
+```
+Answer:
+
+Publish the Missing Records to the inventory_purchases Topic:
+Use the provided curl command to publish the missing records to the inventory_purchases topic:
+
+```
+curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
+  -H "Accept: application/vnd.kafka.v2+json" \
+  --data '{"records":[{"key":"apples","value":"23"},{"key":"grapes","value":"160"}]}' \
+  "http://localhost:8082/topics/inventory_purchases"
+```
+Verify that the data is in the topic using a console consumer:
+
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic inventory_purchases --from-beginning --property print.key=true
+```
+Publish the Missing Records to the member_signups Topic:
+Use the provided curl command to publish the missing records to the member_signups topic:
+
+```
+curl -X POST -H "Content-Type: application/vnd.kafka.json.v2+json" \
+  -H "Accept: application/vnd.kafka.v2+json" \
+  --data '{"records":[{"key":"77543","value":"Rosenberg, Willow"},{"key":"56878","value":"Giles, Rupert"}]}' \
+  "http://localhost:8082/topics/member_signups"
+```
+Verify that the data is in the topic using a console consumer:
+
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic member_signups --from-beginning --property print.key=true
+
+```
