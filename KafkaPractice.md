@@ -41,3 +41,33 @@ You should see the test messages you published earlier:
 product: apples, quantity: 5
 product: lemons, quantity: 7
 This confirms that the test data was successfully published to the topic inventory_purchases and consumed by the consumer.
+
+
+
+
+**#Question:**
+
+Your team is tasked with configuring Kafka topics to customize their behavior. Specifically, you need to enable unclean.leader.election for the inventory_purchases topic and set a 3-day retention period for both the cluster default and the existing inventory_purchases topic. Using Kafka command-line tools, provide step-by-step instructions to achieve these objectives.
+
+**Answer:**
+
+Enabling unclean.leader.election for the inventory_purchases Topic:
+
+Use the kafka-configs command to set unclean.leader.election.enable to true for the inventory_purchases topic:
+
+```
+kafka-configs --zookeeper localhost:2181 --entity-type topics --entity-name inventory_purchases --alter --add-config unclean.leader.election.enable=true
+```
+Setting a 3-Day Retention Period for the Cluster Default and the Existing inventory_purchases Topic:
+
+Set the default retention period for the cluster to 259200000 milliseconds (3 days) using the kafka-configs command with entity-default:
+
+```
+kafka-configs --bootstrap-server localhost:9092 --entity-type brokers --entity-default --alter --add-config log.retention.ms=259200000
+```
+Set the retention period for the inventory_purchases topic to 259200000 milliseconds (3 days) using the kafka-configs command:
+
+```
+kafka-configs --zookeeper localhost:2181 --entity-type topics --entity-name inventory_purchases --alter --add-config retention.ms=259200000
+```
+These steps will enable unclean.leader.election for the inventory_purchases topic and set a 3-day retention period for both the cluster default and the existing inventory_purchases topic.
