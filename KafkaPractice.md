@@ -71,3 +71,44 @@ Set the retention period for the inventory_purchases topic to 259200000 millisec
 kafka-configs --zookeeper localhost:2181 --entity-type topics --entity-name inventory_purchases --alter --add-config retention.ms=259200000
 ```
 These steps will enable unclean.leader.election for the inventory_purchases topic and set a 3-day retention period for both the cluster default and the existing inventory_purchases topic.
+
+
+
+
+
+**Question:**
+
+You're tasked with setting up Kafka consumers to consume data from a specific topic using multiple consumer groups. One consumer group will have a single consumer, while the other will have two consumers. Your goal is to observe how different consumer groups handle messages in Kafka. Provide step-by-step instructions to achieve the following objectives:
+
+Set Up the First Consumer Group with One Consumer:
+
+Set up the first consumer as the sole consumer in its group. Consume messages from the inventory_purchases topic and save the output to /home/cloud_user/output/group1_consumer1.txt.
+
+Set Up a Second Consumer Group with Two Consumers:
+
+Create a consumer in a separate group, and store its output in /home/cloud_user/output/group2_consumer1.txt.
+Create a second consumer in the same group, and store its output in /home/cloud_user/output/group2_consumer2.txt.
+Ensure that the consumers are consuming data from the inventory_purchases topic.
+
+Answer:
+
+Set Up the First Consumer Group with One Consumer:
+
+Use the following command to set up the first consumer as the sole consumer in its group and save the output to /home/cloud_user/output/group1_consumer1.txt:
+
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic inventory_purchases --group 1 > /home/cloud_user/output/group1_consumer1.txt
+```
+Set Up a Second Consumer Group with Two Consumers:
+
+Create a consumer in a separate group, and store its output in /home/cloud_user/output/group2_consumer1.txt:
+
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic inventory_purchases --group 2 > /home/cloud_user/output/group2_consumer1.txt
+```
+Create a second consumer in the same group, and store its output in /home/cloud_user/output/group2_consumer2.txt:
+
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic inventory_purchases --group 2 > /home/cloud_user/output/group2_consumer2.txt
+````
+By following these steps, you'll have set up two consumer groups with different configurations for consuming data from the inventory_purchases topic.
