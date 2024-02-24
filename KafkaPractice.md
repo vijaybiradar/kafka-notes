@@ -90,7 +90,7 @@ Create a consumer in a separate group, and store its output in /home/cloud_user/
 Create a second consumer in the same group, and store its output in /home/cloud_user/output/group2_consumer2.txt.
 Ensure that the consumers are consuming data from the inventory_purchases topic.
 
-Answer:
+**Answer:**
 
 Set Up the First Consumer Group with One Consumer:
 
@@ -112,3 +112,103 @@ Create a second consumer in the same group, and store its output in /home/cloud_
 kafka-console-consumer --bootstrap-server localhost:9092 --topic inventory_purchases --group 2 > /home/cloud_user/output/group2_consumer2.txt
 ````
 By following these steps, you'll have set up two consumer groups with different configurations for consuming data from the inventory_purchases topic.
+
+
+
+
+
+
+**Question:**
+
+You're tasked with setting up and running a Kafka Streams application to process real-time data. Follow the provided objectives to achieve this task.
+
+Objectives:
+
+Create the Input and Output Topic:
+Create the input topic named streams-plaintext-input.
+
+```
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-plaintext-input
+```
+Create the output topic named streams-wordcount-output.
+
+```
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-wordcount-output
+```
+Open a Kafka Console Producer:
+Open a Kafka console producer to input data.
+
+```
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic streams-plaintext-input
+```
+Input the following three messages:
+
+markdown
+Copy code
+> kafka streams is great
+> kafka processes messages in real time
+> kafka helps real information streams
+Open a Kafka Console Consumer:
+Open a Kafka console consumer with specific properties.
+
+```
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic streams-wordcount-output \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true \
+--property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer \
+--property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
+```
+Run the Kafka Streams Application:
+Use the kafka-run-class.sh command to run the WordCountDemo application.
+
+```
+bin/kafka-run-class.sh org.apache.kafka.streams.examples.wordcount.WordCountDemo
+```
+**Answer:**
+
+Create the Input and Output Topic:
+
+Input Topic Creation:
+```
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-plaintext-input
+```
+Output Topic Creation:
+```
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic streams-wordcount-output
+```
+Open a Kafka Console Producer:
+Open a Kafka console producer to input data.
+
+```
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic streams-plaintext-input
+```
+Input the following three messages:
+
+markdown
+Copy code
+> kafka streams is great
+> kafka processes messages in real time
+> kafka helps real information streams
+Open a Kafka Console Consumer:
+Open a Kafka console consumer with specific properties.
+
+```
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic streams-wordcount-output \
+--from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true \
+--property print.value=true \
+--property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer \
+--property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
+```
+Run the Kafka Streams Application:
+Use the kafka-run-class.sh command to run the WordCountDemo application.
+
+```
+bin/kafka-run-class.sh org.apache.kafka.streams.examples.wordcount.WordCountDemo
+```
+By following these steps, you'll set up the input and output topics, input some sample data, open a consumer to view the processed output, and run the Kafka Streams application to perform real-time data processing.
