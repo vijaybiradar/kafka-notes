@@ -365,3 +365,61 @@ Verify that the data is in the topic using a console consumer:
 kafka-console-consumer --bootstrap-server localhost:9092 --topic member_signups --from-beginning --property print.key=true
 
 ```
+
+
+
+
+
+**Question:**
+
+You are tasked with managing access control lists (ACLs) in a Kafka cluster to provide access to a new user and remove existing ACLs for a specific topic. Follow the objectives to complete the task.
+
+**Objectives:**
+
+Add an ACL to Give kafkauser Read and Write Access to the inventory_purchases Topic:
+Create an ACL to grant kafkauser read and write access to the inventory_purchases topic. Verify the read and write access by consuming from and producing data to the topic.
+
+Remove All Existing ACLs for the member_signups Topic:
+List the existing ACLs for the member_signups topic, remove them, and verify that the kafkauser can read from the topic.
+
+Answer:
+
+Add an ACL to Give kafkauser Read and Write Access to the inventory_purchases Topic:
+
+Create the ACL to grant kafkauser read and write access to the inventory_purchases topic:
+
+```
+kafka-acls --authorizer-properties zookeeper.connect=localhost:2181 --add --allow-principal User:kafkauser --operation read --operation write --topic inventory_purchases
+```
+Verify read access by consuming from the topic:
+
+```
+kafka-console-consumer --bootstrap-server zoo1:9093 --topic inventory_purchases --from-beginning --consumer.config client-ssl.properties
+```
+Verify write access by producing data to the topic:
+
+```
+kafka-console-producer --broker-list zoo1:9093 --topic inventory_purchases --producer.config client-ssl.properties
+```
+Remove All Existing ACLs for the member_signups Topic:
+
+List the existing ACLs for the member_signups topic:
+
+```
+kafka-acls --authorizer-properties zookeeper.connect=localhost:2181 --topic member_signups --list
+```
+Remove the existing ACL for the topic:
+
+```
+kafka-acls --authorizer-properties zookeeper.connect=localhost:2181 --topic member_signups --remove
+```
+Verify that kafkauser can read from the topic:
+
+```
+kafka-console-consumer --bootstrap-server zoo1:9093 --topic member_signups --from-beginning --consumer.config client-ssl.properties
+```
+By following these steps, you'll successfully manage ACLs in the Kafka cluster to provide access to the kafkauser and remove existing ACLs for the specified topics.
+
+
+
+
