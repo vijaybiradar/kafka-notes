@@ -212,3 +212,76 @@ Use the kafka-run-class.sh command to run the WordCountDemo application.
 bin/kafka-run-class.sh org.apache.kafka.streams.examples.wordcount.WordCountDemo
 ```
 By following these steps, you'll set up the input and output topics, input some sample data, open a consumer to view the processed output, and run the Kafka Streams application to perform real-time data processing.
+
+
+
+
+
+**Question:**
+
+You're tasked with implementing a basic Kafka Connect connector to export data from the inventory_purchases topic to a file on the local disk. Follow the provided objectives to achieve this task.
+
+**Objectives:**
+
+Create a Connector to Export Data from the inventory_purchases Topic to a File:
+Create a FileStreamSinkConnector to export data from the inventory_purchases topic to a file located at /home/cloud_user/output/output.txt.
+
+Explain:
+Use the provided curl command to create the connector named file_sink. The command specifies the configuration including the connector class, maximum number of tasks, output file path, topic to consume data from, and converter classes for key and value.
+
+```
+curl -X POST http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
+  "name": "file_sink",
+  "config": {
+    "connector.class": "org.apache.kafka.connect.file.FileStreamSinkConnector",
+    "tasks.max": "1",
+    "file": "/home/cloud_user/output/output.txt",
+    "topics": "inventory_purchases",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter"
+  }
+}'
+```
+Verify Data Export:
+
+Start a console producer to publish data representing a purchase of plums to the inventory_purchases topic:
+```
+kafka-console-producer --broker-list localhost:9092 --topic inventory_purchases
+```
+Publish the data: plums:5.
+Check the file /home/cloud_user/output/output.txt to verify that the purchase of plums shows up in the file data:
+```
+cat /home/cloud_user/output/output.txt
+```
+Note: It may take a few moments for the connector to process the new data.
+
+Answer:
+
+Create a Connector to Export Data from the inventory_purchases Topic to a File:
+Execute the provided curl command to create the connector named file_sink:
+
+```
+curl -X POST http://localhost:8083/connectors -H "Content-Type: application/json" -d '{
+  "name": "file_sink",
+  "config": {
+    "connector.class": "org.apache.kafka.connect.file.FileStreamSinkConnector",
+    "tasks.max": "1",
+    "file": "/home/cloud_user/output/output.txt",
+    "topics": "inventory_purchases",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter"
+  }
+}'
+```
+Verify Data Export:
+
+Start a console producer to publish data representing a purchase of plums to the inventory_purchases topic:
+```
+kafka-console-producer --broker-list localhost:9092 --topic inventory_purchases
+```
+Publish the data: plums:5.
+Check the file /home/cloud_user/output/output.txt to verify that the purchase of plums shows up in the file data:
+```
+cat /home/cloud_user/output/output.txt
+```
+Note: It may take a few moments for the connector to process the new data.
